@@ -1,1 +1,7 @@
+这部分是训来出来的模型会存储到这里，请联系作者获取。
+或者在官方网站上也会有一些预训练好的模型可供使用。
 
+训练命令为：
+python main_LYYData.py --mode test --gpu 0 --model_path /home/pc/myGitHub/RandLA-Net/results/Log_2023-10-01_12-40-52/snapshots/snap-11001
+
+参考上面，你就知道怎么写模型的路径了。
