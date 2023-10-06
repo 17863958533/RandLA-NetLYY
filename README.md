@@ -33,7 +33,8 @@
 
 （9）grid_size设置的越小，表示采样后保留下来的点越多，和原点云越相似，计算量越大；num_points = 95536这个数值越大，表示搜索的范围越大，训练出的模型对宏观把控越好，计算成本越高。
 
-
+![a](http://randla-net.cs.ox.ac.uk/imgs/S3DIS_table.png)
+![a][https://github.com/17863958533/RandLA-NetLYY/imgs/%E9%80%89%E5%8C%BA_002.jpg](https://github.com/17863958533/RandLA-NetLYY/blob/main/imgs/%E9%80%89%E5%8C%BA_002.jpg)
 
 
 相比与最原始版本的RandLA-Net网络，修改的部分如下：（该部分格式可能较乱。可以直接参考程序文件）
