@@ -1,4 +1,4 @@
-这个是LYY部署完成的RandLA-Net网络，可以实现对模型的训练和结果的最终直接输出。
+###这个是LYY部署完成的RandLA-Net网络，可以实现对模型的训练和结果的最终直接输出。
 
 （1）首先请部署环境，直接参考tf26lyy.yaml文件即可，这里我对源程序进行了修改，使之可以适合tensorflow2.6环境，并且支持python3.6，同时在3070Ti显卡和Z790电脑主板上进行了测试，证明了新环境架构的可行性。使用命令：conda env create -f tf26lyy.yaml即可在anconda环境中直接部署和作者完全一致的开发环境。
 请注意，使用前请先修改yaml文件中最后一行的环境路径，并确定环境的名称是您想要的。
@@ -16,20 +16,32 @@
 需要说明的事项：
 
 （1）utils_backup.zip压缩包中的文件是用来对数据处理模块的备份，以用来防止数据准备模块编译的有问题。
+
 （2）训练数据的时候请确保电脑至少有32G的内存和10G的独立显存。
+
 （3）数据制作的格式需要严格按照要求进行，否则无法训练。
+
 （4）经过LYY的修改，data_prepare_LYYData.py脚本是用来处理标记数据的，生成可以用于训练的数据集，其中请将grid_size设置为合适的大小，且需要和helper_tool.py文件中设置的保持完全一样，指定的路径下放上txt格式的文件，其中每一行的格式为x y z r g b l，每一个数据用空格分割，每一行代表一个点，其中l表示类别，需要和主函数main中的类别序号保持完全一样，不能出现新的类别序号。
+
 （5）在制作数据集的时候，需要划分三类txt文件，每一类txt文件的数量可以不一样，这三类数据集分别是trainData,valData,testData；其中trainData,valData的格式为x y z r g b l，其中testData的格式为x y z r g b，这些数据txt都是一次性的全部放到data_prepare_LYYData.py脚本指定的original_data文件夹中。
+
 （6）整个RandLA-NetLYY项目工程中的脚本可以分成两组，第一组是：main_LYYData.py、data_prepare_LYYData.py（在utils目录下）、tester_LYYData.py、RandLANet.py（公用）、helper_tool.py（公用），这5个脚本配合可以开始对数据进行训练并在result文件夹下得到最终的模型； 第二组是：main_Semantic3D.py、tester_Semantic3D.py、RandLANet.py（公用）、helper_tool.py（公用），这4个脚本配合可以实现输入待检测的txt和训练好的模型，输出预测的txt结果，直接可以在CC里面进行查看。
+
 （7）在运行任何一个main主程序之前，务必检查数据路径的正确，并检查helper_tool.py脚本中mydata类的带叹号的参数，尤其注意类别数量num_classes和sub_grid_size要与主函数中的设置相一致。
+
 （8）如果你使用的是第一组程序组合进行训练，你可以通过PreData2Las.py脚本获得附加标签的最终检测出来的txt,需要注意的是这里是给采样后在original_ply文件夹中的.ply文件进行label标签的附加，加入其最后一列，视之能够通过CC进行结果的显示。
+
 （9）grid_size设置的越小，表示采样后保留下来的点越多，和原点云越相似，计算量越大；num_points = 95536这个数值越大，表示搜索的范围越大，训练出的模型对宏观把控越好，计算成本越高。
 
 
 
 
-相比与最原始版本的RandLA-Net网络，修改的部分如下：
+相比与最原始版本的RandLA-Net网络，修改的部分如下：（该部分格式可能较乱。可以直接参考程序文件）
+
+
 -------------修改main_Semantic3D.py------------------------------------------------------------------------------------------
+
+
 
 from os.path import join, exists,dirname,abspath
 from RandLANet import Network
@@ -108,8 +120,11 @@ def preprocess_pc(dataset_path,remove_outlier=False):
         proj_save = join(sub_pc_folder, file_name + '_proj.pkl')
         with open(proj_save, 'wb') as f:
             pickle.dump([proj_idx, labels], f)
+	    
             
 #-----------------修改main_Semantic3D.py---------------------------------------------------------------------------------
+
+
 
 class Power:
     def __init__(self,path,remove_outlier=False):
@@ -301,7 +316,11 @@ class Power:
         self.flat_inputs = iter.get_next()
         self.test_init_op = iter.make_initializer(self.batch_test_data)
 
+ 
+
 #--------------------------修改tester_Semantic3D.py-----------------------------------------------------------------
+
+
 import os
 from os import makedirs
 from os.path import exists, join
@@ -462,9 +481,12 @@ class ModelTester:
     def load_evaluation_points(file_path):
         data = read_ply(file_path)
         return np.vstack((data['x'], data['y'], data['z'])).T
+	
 
 
 #----------------------------修改main_Semantic3D.py------------------------------------------------------------------------------------
+
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
