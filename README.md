@@ -35,6 +35,8 @@
 
 ![a](http://randla-net.cs.ox.ac.uk/imgs/S3DIS_table.png)
 ![a][https://github.com/17863958533/RandLA-NetLYY/imgs/%E9%80%89%E5%8C%BA_002.jpg](https://github.com/17863958533/RandLA-NetLYY/blob/main/imgs/%E9%80%89%E5%8C%BA_002.jpg)
+![a](https://github.com/17863958533/RandLA-NetLYY/blob/main/imgs/%E9%80%89%E5%8C%BA_002.jpg)
+
 
 
 相比与最原始版本的RandLA-Net网络，修改的部分如下：（该部分格式可能较乱。可以直接参考程序文件）
